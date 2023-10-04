@@ -1,0 +1,14 @@
+#1st stage
+#pull official base image
+FROM python:3.8.18-bullseye AS builder
+
+#set the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions
+WORKDIR /temp
+
+#set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+#install dependencies manager pipenv
+RUN pip install pipenv --user
+RUN pipenv --version
