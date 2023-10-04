@@ -1,3 +1,4 @@
+# src: https://docs.gitlab.com/ee/ci/quick_start/#create-a-gitlab-ciyml-file
 build-job:
   stage: build
   script:
