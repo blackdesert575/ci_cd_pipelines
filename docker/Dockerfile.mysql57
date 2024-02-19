@@ -1,0 +1,31 @@
+FROM ubuntu:22.04
+
+WORKDIR /root
+
+RUN apt update
+RUN apt install -y \
+    perl \
+    psmisc \
+    libmecab2 \
+    libsasl2-2 \
+    wget \
+    debconf-utils
+
+# install mysql tools
+
+RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-server_5.7.42-1ubuntu18.04_amd64.deb-bundle.tar \
+    && tar -xvf mysql-server_5.7.42-1ubuntu18.04_amd64.deb-bundle.tar \
+    && rm mysql-server_5.7.42-1ubuntu18.04_amd64.deb-bundle.tar
+RUN dpkg -i mysql-common_5.7.42-1ubuntu18.04_amd64.deb || true
+RUN apt-get -f -y install
+RUN dpkg -i mysql-community-client_5.7.42-1ubuntu18.04_amd64.deb || true
+RUN apt-get -f -y install
+RUN dpkg -i mysql-client_5.7.42-1ubuntu18.04_amd64.deb || true
+RUN apt-get -f -y install
+RUN { \        
+        echo mysql-community-server mysql-community-server/root-pass password ''; \
+        echo mysql-community-server mysql-community-server/re-root-pass password ''; \        
+    } | debconf-set-selections \
+    && dpkg -i mysql-community-server_5.7.42-1ubuntu18.04_amd64.deb && apt-get -f -y install
+
+RUN rm *.deb
