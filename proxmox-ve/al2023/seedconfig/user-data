@@ -4,6 +4,7 @@ users:
 # A user by the name 'ec2-user' is created in the image by default.
 - default
 - name: ec2-user
+  plain_text_passwd: 'ubuntu'
   ssh-authorized-keys:
     - ssh-rsa ssh-key
 # In the above line, replace ssh key with the content of your ssh public key.
