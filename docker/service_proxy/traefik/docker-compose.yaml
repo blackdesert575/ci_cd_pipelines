@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.5
+    command:
+      - "--api.insecure=true"  # Enable insecure API for dashboard (remove this in production)
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.websecure.http.tls.certificates=/certs/your_domain.crt"  # Path to SSL/TLS certificate
+      - "--entrypoints.websecure.http.tls.key=/certs/your_domain.key"  # Path to private key
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./certs:/certs"  # Mount the directory containing your certificates
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`your-traefik-domain.com`)"  # Change to your domain
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$apr1$$cKcKcKcK$$hWw9VoGeC00foeC5hQVjR/"  # Basic Auth for Traefik dashboard (replace with your credentials)
+      - "traefik.http.routers.traefik-secure.rule=Host(`your-traefik-domain.com`)"  # Change to your domain
+      - "traefik.http.routers.traefik-secure.entrypoints=websecure"
+
+  your_service:
+    image: your_service_image
+    # Add other configurations for your service as needed
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.your_service.rule=Host(`your-service-domain.com`)"  # Change to your domain
+      - "traefik.http.routers.your_service.entrypoints=websecure"
