@@ -1,0 +1,27 @@
+---
+- name: Manage Docker Compose files
+  hosts: localhost  # Assuming you are running Ansible locally, change to appropriate hosts if needed
+  become: true      # If sudo privileges are required
+
+  tasks:
+    - name: Docker Compose Up
+      command: docker-compose -f /data/docker/projects/docker-compose.yml up -d
+      args:
+        chdir: /data/docker/projects
+      ignore_errors: yes
+      register: docker_up
+
+    - name: Print Docker Compose Up Output
+      debug:
+        var: docker_up.stdout_lines
+
+    - name: Docker Compose Down
+      command: docker-compose -f /data/docker/projects/docker-compose.yml down
+      args:
+        chdir: /data/docker/projects
+      ignore_errors: yes
+      register: docker_down
+
+    - name: Print Docker Compose Down Output
+      debug:
+        var: docker_down.stdout_lines
