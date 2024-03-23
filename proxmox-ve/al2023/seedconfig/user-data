@@ -4,5 +4,9 @@ users:
 # A user by the name 'ec2-user' is created in the image by default.
 - default
 - name: ec2-user
-  plain_text_passwd: ec2-user
+  # plain_text_passwd: ec2-user
+  # not working
+  ssh-authorized-keys:
+    - ssh-rsa ssh-key
+    - ssh-ed25519 ssh-key
 # example:https://cloudinit.readthedocs.io/en/latest/reference/examples.html
