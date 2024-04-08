@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  devops:
+    image: devops:v0.1
+    container_name: devops
+    hostname: devops
+    restart: always
+    entrypoint: tail -f /dev/null
+    volumes:
+    - ${local_root_path}/ansible-lab:/volume/ansible-lab
+    # - /var/run/docker.sock:/var/run/docker.sock
+    - /run/user/1000/docker.sock:/var/run/docker.sock
+    network_mode: "host"
+    # environment:
+    #   MYSQL_ROOT_PASSWORD: master_password
+    #   MYSQL_DATABASE: my_database
+    #   MYSQL_USER: my_username
+    #   MYSQL_PASSWORD: my_password
+    # ports:
+    #   - "3306:3306"
+    # command: --server-id=1 --log-bin=mysql-bin --binlog-do-db=my_database --binlog-format=ROW --gtid-mode=ON --enforce-gtid-consistency=ON

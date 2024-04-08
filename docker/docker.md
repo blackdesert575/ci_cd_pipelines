@@ -8,4 +8,7 @@ Dockerfile.mysql57
 ```shell
 docker build -f Dockerfile.mysql57 -t local:2204 .
 docker run -it --name test local:2204
+
+docker build -f Dockerfile.ansible -t devops:v0.1 .
+docker run -it --name devops devops:v0.1
 ```
