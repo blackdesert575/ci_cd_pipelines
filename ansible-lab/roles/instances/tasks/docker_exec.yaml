@@ -1,0 +1,15 @@
+- hosts: localhost
+ tasks:
+    - name: Run a command inside a Docker container
+      docker_exec:
+        container: my_container
+        command: /path/to/your/command
+      register: command_output
+
+    - name: Convert command output to JSON
+      set_fact:
+        json_output: "{{ command_output.stdout | from_json }}"
+
+    - name: Display JSON output
+      debug:
+        var: json_output
