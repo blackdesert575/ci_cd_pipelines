@@ -1,0 +1,23 @@
+# 使用官方 Python 3 Alpine 映像作為基礎映像
+FROM python:3.12-alpine
+
+# 設置環境變數，確保 Python 3 使用 UTF-8
+ENV PYTHONUNBUFFERED=1
+
+# 更新包管理器並安裝 Docker CLI 和 Skopeo
+RUN apk add --no-cache \
+    docker-cli \
+    skopeo \
+    bash
+
+# 創建應用目錄
+WORKDIR /app
+
+# 複製 Python 腳本到容器
+COPY docker_tool.py /app/docker_tool.py
+
+# 設置執行權限
+RUN chmod +x /app/docker_tool.py
+
+# 設置入口點，使其可用於 CLI
+ENTRYPOINT ["python3", "/app/docker_tool.py"]
