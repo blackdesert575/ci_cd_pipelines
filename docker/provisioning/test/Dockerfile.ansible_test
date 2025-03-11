@@ -1,0 +1,12 @@
+FROM python:3.12.3-bookworm
+
+WORKDIR /volume
+
+RUN python3 --version
+RUN python3 -m pip --version
+
+COPY ./requirements.txt .
+RUN pip3 install -r requirements.txt
+
+COPY ./requirements.yml .
+RUN ansible-galaxy install -r requirements.yml

@@ -1,0 +1,3 @@
+ansible-core==2.16.3
+# Ansible 9.2.0 contains ansible-core version 2.16.3.
+# src: https://github.com/ansible-community/ansible-build-data/blob/main/9/CHANGELOG-v9.rst
