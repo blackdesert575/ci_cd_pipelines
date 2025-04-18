@@ -7,14 +7,14 @@ services:
     container_name: devops
     hostname: devops
     restart: always
-    entrypoint: tail -f /dev/null
+    # entrypoint: tail -f /dev/null
     volumes:
     - ${ANSIBLE_PLAYBOOKS_PATH}:/volume/ansible
     - ${SSH_KEY_PATH}:/root/.ssh/
     - ./requirements.yml:/volume/requirements.yml
     # - /var/run/docker.sock:/var/run/docker.sock
     # - /run/user/1000/docker.sock:/var/run/docker.sock
-    network_mode: "host"
+    # network_mode: "host"
     # environment:
     #   - ANSIBLE_PLAYBOOKS_PATH=${ANSIBLE_PLAYBOOKS_PATH}
     #   - SSH_KEY_PATH=${SSH_KEY_PATH}
