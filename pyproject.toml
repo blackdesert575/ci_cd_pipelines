@@ -1,7 +1,7 @@
 [project]
 name = "ci-cd-pipelines"
 version = "0.1.0"
-description = "Add your description here"
+description = "ci_cd_pipelines collects some example scripts/filles when make your pipelines setup with any CI/CD tools."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
