@@ -29,20 +29,24 @@ fn verify_with_hash(file: &PathBuf, expected: &str) -> io::Result<bool> {
 }
 
 fn verify_with_checksum_file(file: &PathBuf, checksum_path: &PathBuf) -> io::Result<bool> {
-    let iso_name = file.file_name().unwrap().to_string_lossy();
+    let iso_name = file.file_name()
+        .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidInput, "Invalid ISO filename"))?
+        .to_string_lossy();
 
-    let file = File::open(checksum_path)?;
-    for line in io::BufReader::new(file).lines() {
+    // 把下面這行的變數名稱改成 `f`，避免覆蓋到上面的 `file`
+    let f = File::open(checksum_path)?;
+    for line in io::BufReader::new(f).lines() {
         let line = line?;
         let parts: Vec<&str> = line.trim().split_whitespace().collect();
-        if parts.len() == 2 && parts[1].ends_with(&*iso_name) {
+        if parts.len() == 2 && parts[1] == iso_name {
+            // 這裡呼叫的 `file` 就是傳進來的 PathBuf
             return verify_with_hash(file, parts[0]);
         }
     }
 
     Err(io::Error::new(
         io::ErrorKind::InvalidInput,
-        "❌ 錯誤：未在 checksum 檔中找到對應項目",
+        format!("❌ 錯誤：在 {} 中找不到 {}", checksum_path.display(), iso_name),
     ))
 }
 
@@ -71,8 +75,8 @@ fn main() -> io::Result<()> {
     let file_path = PathBuf::from(matches.get_one::<String>("file").unwrap());
     let result = if let Some(expected) = matches.get_one::<String>("sha256") {
         verify_with_hash(&file_path, expected)?
-    } else if let Some(checksum_path) = matches.get_one::<String>("checksum") {
-        verify_with_checksum_file(&file_path, &PathBuf::from(checksum_path))?
+    } else if let Some(chk) = matches.get_one::<String>("checksum") {
+        verify_with_checksum_file(&file_path, &PathBuf::from(chk))?
     } else {
         eprintln!("❌ 錯誤：請指定 --sha256 或 --checksum");
         std::process::exit(1);
