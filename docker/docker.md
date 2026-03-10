@@ -19,6 +19,13 @@ docker build -f Dockerfile.devops -t devops:v0.1 .
 docker run -it --name devops devops:v0.1
 ```
 
+* pulumi with python3
+
+```shell
+cd pulumi_with_python3
+cat pulumi_with_python3.md
+```
+
 ## docker compose-file spec...etc
 
 * [compose-file/build/#using-build-and-image](https://docs.docker.com/reference/compose-file/build/#using-build-and-image)

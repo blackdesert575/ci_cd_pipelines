@@ -1,0 +1,8 @@
+#To do
+#Prvent container exited or sleep?
+#ref src: https://learnxinyminutes.com/docker/
+
+tail -f -f /dev/null
+
+command: ["/bin/sh"]
+args: ["-c", "while true; do sleep 10;done"]
