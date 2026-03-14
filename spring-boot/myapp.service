@@ -7,8 +7,8 @@ User=myapp
 Group=myapp
 
 Type=exec
-ExecStart=/path/to/java/home/bin/java -jar /var/myapp/myapp.jar
-WorkingDirectory=/var/myapp
+ExecStart=/usr/bin/java -jar /opt/myapp/myapp.jar
+WorkingDirectory=/opt/myapp
 SuccessExitStatus=143
 
 [Install]
