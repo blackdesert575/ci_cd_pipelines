@@ -1,0 +1,30 @@
+spec:
+  inputs:
+    JOB_ID:
+      default: "Some JOB_ID from CI JOBS"
+---
+workflow:
+  rules:
+    # Run the pipeline only if the source is from the "New pipeline" UI action
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+    # Prevent the pipeline from running for all other sources (like 'push', 'merge_request_event', etc.)
+    - if: '$CI_PIPELINE_SOURCE != "web"'
+      when: never
+
+variables:
+  Project_ID: "80259990"  
+
+deploy:
+  stage: deploy
+  tags: 
+    - cd-runner      
+  script:
+    - |
+      curl --location --output artifacts.zip \
+        --header "PRIVATE-TOKEN: $CD_RUNNER_TOKEN" \
+        --url "https://gitlab.com/api/v4/projects/$Project_ID/jobs/$[[ inputs.JOB_ID ]]/artifacts"         
+    - unzip artifacts.zip
+    - cp demo/target/demo-api.jar /opt/demo/demo-api.jar
+    - sudo systemctl restart demo.service
+  after_script:
+    - rm -rf $CI_PROJECT_DIR

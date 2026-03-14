@@ -1,0 +1,15 @@
+[Unit]
+Description=demo
+After=syslog.target network.target
+
+[Service]
+User=demo
+Group=demo
+
+Type=exec
+ExecStart=/usr/bin/java -jar /opt/demo/demo-api.jar
+WorkingDirectory=/opt/demo
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

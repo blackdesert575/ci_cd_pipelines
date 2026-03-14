@@ -1,0 +1,29 @@
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "push"
+      when: never
+
+# variables:
+#   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+#   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+# cache:
+#   paths:
+#     - .m2/repository/
+#     - target/
+
+build:
+  stage: build
+  tags: 
+    - ci-runner
+  image: maven:latest  
+  script:
+    - cd demo
+    - mvn package
+  artifacts:
+    paths:      
+      - demo/target/demo-api.jar
+    expire_in: 1 week
