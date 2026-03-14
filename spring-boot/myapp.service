@@ -1,0 +1,15 @@
+[Unit]
+Description=myapp
+After=syslog.target network.target
+
+[Service]
+User=myapp
+Group=myapp
+
+Type=exec
+ExecStart=/path/to/java/home/bin/java -jar /var/myapp/myapp.jar
+WorkingDirectory=/var/myapp
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
