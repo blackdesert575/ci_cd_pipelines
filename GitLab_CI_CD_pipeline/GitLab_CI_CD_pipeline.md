@@ -11,3 +11,8 @@
         * skills-demo/demo-spring-boot-deploy-main
             * 模擬維運人員使用這一組repo進行Java spring boot的服務佈署，這邊需要注意的是，維運人員需要跟開發人員溝通，取得"JOB_ID"(這個變數決定我們佈署哪一個Java spring boot的發行版本)，觸發CD pipeline，下載Gtilab artifacts上打包好的jar檔案，並佈署至伺服器環境上
         * 細節的操作請參考各別repo底下的README.md
+
+## Docs
+
+* [docs.gitlab.com/development/cicd/#examples-of-cicd-usage](https://docs.gitlab.com/development/cicd/#examples-of-cicd-usage)
+* [docs.gitlab.com/runner/#runner-execution-flow](https://docs.gitlab.com/runner/#runner-execution-flow)
